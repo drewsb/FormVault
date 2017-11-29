@@ -10,6 +10,7 @@ Current Features
   * Allows users to save form data as a template, and later recover the template for that URL.
   * Saving templates overwriters a previously saved template. 
   * Users can clear all form data by clicking the 'Clear History' button. 
+  * Clicking 'recover from last save' loads most recently saved form data, as well as delete it. This will allow users to quickly iterate through past form data until they find the desired data.
 
 To-Do
 * Implement the form history page. This will allow users to search for some url and view all form data saved to that url. The user should be able to preview and load the form data.
