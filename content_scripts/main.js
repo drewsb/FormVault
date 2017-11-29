@@ -1,5 +1,3 @@
-/*global FormParser */
-
 var $form = $('form');
 window.parser = new FormParser($form);
 

@@ -1,33 +1,40 @@
-/*
-    Not being used yet.
-*/
+function DataStack() {
 
-var DataStack = (function(){
-    var setData = function(key,obj){
-        var values = JSON.stringify(obj);
-        chrome.storage.sync.setItem(key,values);
-    }
-
-    var getData = function(key){
-        if(chrome.storage.synx.getItem(key) != null){
-        return JSON.parse(chrome.storage.sync.getItem(key));
-        } else{
-            return false;
-        }
-    }
-
-    var updateData = function(key,newData){
-        if(chrome.storage.sync.getItem(key) != null){
-            var oldData = JSON.parse(chrome.storage.sync.getItem(key));
-            for(keyObj in newData){
-                oldData[keyObj] = newData[keyObj];
+    this.pushData = function(url, formObj){
+        stack = this;
+        chrome.storage.local.get(url, function(items) {
+            data = items[url]
+            if(data == undefined){
+                data = {}
+                data['auto-save'] = []
             }
-            var values = JSON.stringify(oldData);
-            chrome.storage.sync.setItem(key,values);
-        } else{
-            return false;
-        }
+            data['auto-save'].push(formObj)
+            console.log(data['auto-save'])
+            var dataObj = {};
+            dataObj[url] = data
+            chrome.storage.local.set(dataObj, function() {
+                console.log("Updated data");
+            });
+        });
     }
-
-    return {set:setData,get:getData,update:updateData}
-})();
+    this.getData = function(url, callback) {
+        chrome.storage.local.get(url, function(items) {
+            data = items[url]
+            if(data == undefined) {
+                console.log("Undefined")
+                return null
+            }
+            var data_len = data['auto-save'].length;
+            if(data_len == 0) {
+                return null
+            }
+            var output = data['auto-save'].pop();
+            console.log(output)
+            chrome.storage.local.set(items, function() {
+                console.log("Popped data");
+                console.log(items)
+            });
+            callback(output)
+        });
+    }
+};

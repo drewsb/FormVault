@@ -29,7 +29,8 @@ $(function () {
   });
 
   $('#clear').click(function () {
-    chrome.tabs.executeScript(null, {code: 'chrome.storage.sync.clear(); console.log("History Cleared");'});
+    chrome.tabs.executeScript(null, {code: 'chrome.storage.local.clear();' +
+    'chrome.storage.sync.clear(); console.log("History Cleared");'});
   });
 
   // Need to implement form history

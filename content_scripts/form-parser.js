@@ -1,6 +1,7 @@
 var FormParser = function ($form) {
   // Save the $form body as a state
   this.$form = $form;
+  this.dataStack = new DataStack();
 };
 
 var removeUserInfo = function(obj) {
@@ -24,40 +25,28 @@ FormParser.prototype.parse = function (url, markup) {
     formObj[data[id]['name']] = data[id]['value']
   });
   removeUserInfo(formObj);
-
-  var urlObj = {};
-  urlObj[url] = formObj;
-  chrome.storage.sync.set(urlObj, function() {
-  	chrome.storage.sync.get(url, function(items) {
-    	console.log(items)
-  	});
-  });
-  return this.$form.serializeArray()
+  return this.dataStack.pushData(url, formObj);
 };
 
 FormParser.prototype.restore = function (url) {
   if(url == undefined) {
-    console.log("EMPTY")
+    console.log("Invalid URL.")
     return
   }
   parser = this;
-  var data = chrome.storage.sync.get(url, function(items) {
-    var item_len = Object.keys(items).length;
-    if(items == undefined || item_len == 0){
-      console.log(url)
-      console.log("No saved template for url.")
-      return
+  this.dataStack.getData(url, function(data) {
+    if(data == null) {
+      console.log("No saved data for this url.")
+      return;
     }
-    console.log("Restoring url" + url);
-    console.log(items[url])
     parser.$form.find('input').val(function (index, value) {
       console.log(this)
-      return items[url][$(this).attr('name')];
+      return data[$(this).attr('name')];
     });
     parser.$form.find('select').val(function (index, value) {
-      return items[url][$(this).attr('name')];
+      return data[$(this).attr('name')];
     });
-  })
+  });
 };
 
 FormParser.prototype.initializeTemplate = function (url) {

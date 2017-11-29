@@ -12,6 +12,7 @@
     "method-override": "~1.0.0",
     "mongoose": "^4.13.5",
     "morgan": "~1.0.0",
-    "package": "^1.0.1"
+    "package": "^1.0.1",
+    "requirejs": "^2.3.5"
   }
 }

@@ -12,14 +12,15 @@
     	"declarativeContent",
     	"activeTab",
         "identity",
-        "storage"
+        "storage",
+        "unlimitedStorage"
     ],
 
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": [ "content_scripts/form-parser.js", "content_scripts/jquery.min.js"
-                ,"content_scripts/main.js", "content_scripts/url-parser.js"]
+            "js": [ "content_scripts/form-parser.js", "content_scripts/data-stack.js", "content_scripts/jquery.min.js"
+                ,"content_scripts/main.js", "content_scripts/url-parser.js","content_scripts/sizeof.js"]
         }
     ],
 
