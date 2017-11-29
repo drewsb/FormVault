@@ -1,0 +1,43 @@
+{
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq/VYrdlvSXY1LYe5b82jm/8h7rBNoqREuDEXriCuytBX6mloTFwPV2tjBQPz7dWFNBukmZjjJQ80sJo9B9fpQGlp8zey8cAMz4KmlHRmu/q8Y8W1vs7uG7CU1D74ie1rbSqCKBLwxeGZy65bWxE+jed8XsrGS0C3Bgir2ec2w9XspLk/gJhOehwhSBVN+vqCLzXbWJqjTCmcWr/yHe4VvB9auC/9BQ6F/RpQmi1xnCiGstTStge1zu+ZcZRxpxiBvHQwBrUIAVm2SwU5hc5YvR4IF4ceunVwZK0lI9sEmIaCb2Y8dVnYZy6khBiM/EDp/JLqM7/TIuIOccteJlUyTwIDAQAB",
+
+    "manifest_version": 2,
+
+    "name": "FormFault",
+    "description": "Saves online form data to your chrome browser",
+
+    "version": "1.0",
+
+    "permissions": [
+    	"declarativeContent",
+    	"activeTab",
+        "identity",
+        "storage"
+    ],
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": [ "content_scripts/form-parser.js", "content_scripts/jquery.min.js"
+                ,"content_scripts/main.js", "content_scripts/url-parser.js"]
+        }
+    ],
+
+    "browser_action": {
+        "default_popup": "popup/popup.html",
+        "default_icon": "popup/icon.png",
+        "default_title": "Form Recovery"
+    },
+
+    "background": {
+    	"scripts": [ "background.js" ],
+    	"persistent": false
+	},
+
+     "oauth2": {
+        "client_id": "176909945205-0rnmdk7i9lk3gbn6vrt2g5a8cq7m7tf6.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/drive.appdata"
+        ]
+    }
+}
