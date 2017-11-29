@@ -1,3 +1,7 @@
+/*
+    Not being used yet.
+*/
+
 var DataStack = (function(){
     var setData = function(key,obj){
         var values = JSON.stringify(obj);
