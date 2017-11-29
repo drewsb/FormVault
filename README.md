@@ -13,5 +13,4 @@ Current Features
 
 To-Do
 * Implement the form history page. This will allow users to search for some url and view all form data saved to that url. The user should be able to preview and load the form data.
-* Clicking 'recover from last save' should load most recently saved form data, as well as delete it. This will allow users to quickly iterate through past form data until they find the desired data.
 * Make buttons look fancy :)
