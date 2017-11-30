@@ -8,7 +8,7 @@ Current Features
   as long as the user has sync enabled for Chrome extensions. 
   * Recovers most recently saved form data for that particular URL. 
   * Allows users to save form data as a template, and later recover the template for that URL.
-  * Saving templates overwriters a previously saved template. 
+  * Saving templates overwrites a previously saved template. 
   * Users can clear all form data by clicking the 'Clear History' button. 
   * Clicking 'recover from last save' loads most recently saved form data, as well as delete it. This will allow users to quickly iterate through past form data until they find the desired data.
   * Made buttons look fancy :)
