@@ -1,6 +1,6 @@
 # FormVault
 FormVault is a Chrome extension that gives users the ability to save form templates and recover lost
-form data for any webpage.
+form data from any webpage.
 
 Current Features
   * Automatically saves most current form data whenever the user updates the form. Program detects changes whenever a user alters the value in an html input or select element.
