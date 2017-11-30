@@ -1,40 +1,44 @@
 <!doctype html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="button.css">
       <title>Form Vault Extension Popup</title>
     <style>
       body {
-        overflow-x: hidden;
-        width: 100px;
+        width: 170px;
       }
 
       button {
-          margin: 5px;
-          width: 90px;
-          background: blue;
-          color: white;
+        overflow:hidden;
+        width: 80%;
+        margin : 5px;
+        display: inline-block;
+        padding: 15px 32px;
       }
 
-      input {
-          width: 90px;
-          margin: 5px;
+      .btn {
+        margin-bottom: 1px;
       }
-
+      h2 {
+        font-family: "Times New Roman", Times, serif;
+        margin-top : 10px;
+      }
       img {
-        margin: 5px;
-        border: 2px solid black;
-        vertical-align: middle;
-        height: 75px;
+        width:28%;
+        height:14%;
       }
     </style>
   </head>
-  <body>
-    <button id="restore"> Restore From Last Save </button>
-    <button id="save-template">  Save Template </button>
-    <button id="restore-template">  Initialize Template </button>
-    <button id="clear">  Clear History </button>
-    <button id="form-history">  Form History </button>
+  <body class = "text-center">
+    <h2> Form Vault </h2>
+    <img src="image3.png" alt="Form Vault">
+    <div style="border-top: dotted gray;margin-top: 10px;"</div>
+    <button type = "button" class="btn btn-primary btn-xs center-block" id="restore"> Undo </button>
+    <button type = "button" class="btn btn-success btn-xs" id="save-template"> Save Template </button>
+    <button type = "button" class="btn btn-warning btn-xs" id="restore-template"> Restore Template </button>
+    <button type = "button" class="btn btn-danger btn-xs" id="clear"> Clear History </button>
+    <button type = "button" class="btn btn-info btn-xs" id="form-history" style = "margin-bottom: : -5px;"> Form History </button>
     <script src="jquery.min.js"></script>
     <script src="popup.js"></script>
   </body>
