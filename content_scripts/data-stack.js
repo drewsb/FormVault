@@ -13,6 +13,7 @@ function DataStack() {
             dataObj[url] = data
             chrome.storage.local.set(dataObj, function() {
                 console.log("Updated data");
+                console.log(dataObj)
             });
         });
     }
@@ -31,6 +32,7 @@ function DataStack() {
             chrome.storage.local.set(items, function() {
                 console.log("Popped data");
             });
+            console.log(data)
             callback(output)
         });
     }

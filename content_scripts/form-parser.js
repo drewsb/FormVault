@@ -35,19 +35,7 @@ FormParser.prototype.restore = function (url) {
   }
   parser = this;
   this.dataStack.getData(url, function(data) {
-    if(data == null) {
-      console.log("No saved data for this url.")
-      return;
-    }
-    parser.$form.find('input').val(function (index, value) {
-      return data[$(this).attr('name')];
-    });
-    parser.$form.find('select').val(function (index, value) {
-      return data[$(this).attr('name')];
-    });
-    parser.$form.find('textarea').val(function (index, value) {
-      return data[$(this).attr('name')];
-    });
+    parser.fillForm(data)
   });
 };
 
@@ -57,21 +45,14 @@ FormParser.prototype.initializeTemplate = function (url) {
     return
   }
   parser = this;
-  var data = chrome.storage.sync.get(url + '-template', function(items) {
+  chrome.storage.sync.get(url + '-template', function(items) {
     var item_len = Object.keys(items).length;
     if(items == undefined || item_len == 0) {
       console.log("No saved template for url.")
       return
     }
-    console.log("Initializing template" + url);
-    console.log(items)
-    parser.$form.find('input').val(function (index, value) {
-      console.log(this)
-      return items[url + '-template'][$(this).attr('name')];
-    });
-    parser.$form.find('select').val(function (index, value) {
-      return items[url + '-template'][$(this).attr('name')];
-    });
+    var data = items[url + '-template']
+    parser.fillForm(data);
   })
 };
 
@@ -95,5 +76,27 @@ FormParser.prototype.saveTemplate = function(url) {
     });
   });
   return this.$form.serializeArray()
+}
+
+FormParser.prototype.fillForm = function(data) {
+  if(data == null) {
+    console.log("No saved data for this url.")
+    return;
+  }
+  valueInputs = ["input[type='text']", 'select', 'textarea'];
+  checkInputs = ["input:radio", 'input:checkbox'];
+
+  valueInputs.forEach(function(tag) {
+    this.$form.find(tag).val(function (index, value) {
+      return data[$(this).attr('name')];
+    });
+  })
+  checkInputs.forEach(function(tag) {
+    this.$form.find(tag).each(function (index, elem) {
+      if(elem.name in data & elem.value == data[elem.name]) {
+        $(this).prop('checked', true)
+      }
+    });
+  })
 }
 
