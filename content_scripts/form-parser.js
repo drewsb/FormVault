@@ -40,10 +40,12 @@ FormParser.prototype.restore = function (url) {
       return;
     }
     parser.$form.find('input').val(function (index, value) {
-      console.log(this)
       return data[$(this).attr('name')];
     });
     parser.$form.find('select').val(function (index, value) {
+      return data[$(this).attr('name')];
+    });
+    parser.$form.find('textarea').val(function (index, value) {
       return data[$(this).attr('name')];
     });
   });

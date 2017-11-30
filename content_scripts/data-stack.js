@@ -9,7 +9,6 @@ function DataStack() {
                 data['auto-save'] = []
             }
             data['auto-save'].push(formObj)
-            console.log(data['auto-save'])
             var dataObj = {};
             dataObj[url] = data
             chrome.storage.local.set(dataObj, function() {
@@ -29,10 +28,8 @@ function DataStack() {
                 return null
             }
             var output = data['auto-save'].pop();
-            console.log(output)
             chrome.storage.local.set(items, function() {
                 console.log("Popped data");
-                console.log(items)
             });
             callback(output)
         });
