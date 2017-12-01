@@ -83,6 +83,7 @@ FormParser.prototype.fillForm = function(data) {
     console.log("No saved data for this url.")
     return;
   }
+  console.log(data)
   valueInputs = ["input[type='text']", 'select', 'textarea'];
   checkInputs = ["input:radio", 'input:checkbox'];
 
@@ -91,12 +92,20 @@ FormParser.prototype.fillForm = function(data) {
       return data[$(this).attr('name')];
     });
   })
-  checkInputs.forEach(function(tag) {
-    this.$form.find(tag).each(function (index, elem) {
-      if(elem.name in data & elem.value == data[elem.name]) {
-        $(this).prop('checked', true)
-      }
-    });
-  })
+  this.$form.find('input:radio').each(function (index, elem) {
+    console.log(elem)
+    if(elem.name in data & elem.value == data[elem.name]) {
+      $(this).prop('checked', true)
+    }
+  });
+  this.$form.find('input:checkbox').each(function (index, elem) {
+    console.log(elem)
+    if(elem.name in data & elem.value == data[elem.name]) {
+      $(this).prop('checked', true)
+    }
+    else {
+      $(this).prop('checked', false)
+    }
+  });
 }
 
