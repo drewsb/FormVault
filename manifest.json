@@ -11,14 +11,16 @@
     	"activeTab",
         "identity",
         "storage",
-        "unlimitedStorage"
+        "unlimitedStorage",
+        "tabs"
     ],
 
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": [ "content_scripts/form-parser.js", "content_scripts/data-stack.js", "content_scripts/jquery.min.js"
-                ,"content_scripts/main.js", "content_scripts/url-parser.js"]
+            "js": [ "content_scripts/form-parser.js", "content_scripts/data-stack.js", "js/jquery.min.js"
+                ,"content_scripts/main.js", "content_scripts/url-parser.js"
+            ]
         }
     ],
 
@@ -31,12 +33,6 @@
     "background": {
     	"scripts": [ "background.js" ],
     	"persistent": false
-	},
+	}
 
-     "oauth2": {
-        "client_id": "176909945205-0rnmdk7i9lk3gbn6vrt2g5a8cq7m7tf6.apps.googleusercontent.com",
-        "scopes": [
-            "https://www.googleapis.com/auth/drive.appdata"
-        ]
-    }
 }

@@ -10,9 +10,10 @@
     "express": "~4.16.2",
     "express-session": "~1.0.0",
     "method-override": "~1.0.0",
-    "mongoose": "^4.13.5",
+    "mongoose": "^4.13.6",
     "morgan": "~1.0.0",
     "package": "^1.0.1",
+    "popper.js": "^1.12.9",
     "requirejs": "^2.3.5"
   }
 }
