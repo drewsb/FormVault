@@ -13,6 +13,7 @@ $(document).ready(function () {
     }
   });
   $('[data-toggle=tooltip]').tooltip();
+  //Populate table
   chrome.storage.sync.get(null, function (items) {
     var allKeys = Object.keys(items);
     var row_id = 0;
@@ -48,7 +49,7 @@ function editTemplate(url) {
   chrome.tabs.create({'url': urlParser.url, selected: true, active: true}, function (tab) {
     chrome.tabs.executeScript(tab.id, {file: 'js/jquery.min.js'}, function () {
       chrome.tabs.executeScript(tab.id, {file: 'content_scripts/main.js'}, function () {
-        chrome.tabs.executeScript(tab.id, {file: 'templates/restoreTemplate.js'});
+        chrome.tabs.executeScript(tab.id, {file: 'templates/restore-template.js'});
       });
     });
   });
@@ -56,9 +57,13 @@ function editTemplate(url) {
 
 // Delete template from chrome storage and table
 function deleteTemplate(url, row) {
-  var i = row.rowIndex;
-  document.getElementById('mytable').deleteRow(i);
-  chrome.storage.sync.remove(url);
+  if (confirm("Are you sure you want to delete this template?") == false) {
+    return;
+  } else {
+    var i = row.rowIndex;
+    document.getElementById('mytable').deleteRow(i);
+    chrome.storage.sync.remove(url);
+  }
 }
 
 function filterTable() {

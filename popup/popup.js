@@ -1,5 +1,4 @@
 $(function () {
-
   $('#restore').click(function () {
     chrome.tabs.executeScript(null, {code:
       'var url = window.location.href; var markup = document.documentElement.innerHTML;' +
@@ -15,7 +14,7 @@ $(function () {
   });
 
   $('#restore-template').click(function () {
-    chrome.tabs.executeScript(null, {file: 'templates/restoreTemplate.js'});
+    chrome.tabs.executeScript(null, {file: 'templates/restore-template.js'});
   });
 
   $('#edit-templates').click(function () {
@@ -24,10 +23,9 @@ $(function () {
   });
 
   $('#clear').click(function () {
-    chrome.tabs.executeScript(null, {code: 'chrome.storage.local.clear();' +
-    'chrome.storage.sync.clear(); console.log("History Cleared");'});
+    chrome.tabs.executeScript(null, {code: 'if (confirm("Are you sure you want to clear your history?") == true) {' +
+    'chrome.storage.local.clear(); chrome.storage.sync.clear();' +
+    'console.log("History Cleared"); };'
+    });
   });
-
-
-
 });

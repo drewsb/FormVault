@@ -1,7 +1,12 @@
+/*
+URLParser is a helper class with various functions to format URL's and extract info
+*/
+
 var URLParser = function (url) {
   this.url = url;
 };
 
+// Remove the fragment portion of URL (everything after the '#' character)
 URLParser.prototype.removeFragment = function () {
   var index = this.url.indexOf('#');
   if (index == -1) {
@@ -11,6 +16,7 @@ URLParser.prototype.removeFragment = function () {
   return this.url;
 };
 
+// Remove the appended '-template' on a URL
 URLParser.prototype.removeTemplate = function () {
   var index = this.url.indexOf('-template');
   if (index == -1) {
@@ -19,7 +25,6 @@ URLParser.prototype.removeTemplate = function () {
   this.url = this.url.substring(0, index);
   return this.url;
 };
-
 
 URLParser.prototype.extractHostname = function () {
   var hostname;
