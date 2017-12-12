@@ -1,12 +1,5 @@
 $(function () {
 
-	// Event listening code goes here.
-	// Be sure to check popup.html to learn the `id` attributes of the apply/remove filter
-	// buttons and the username input box - you'll need those to listen for events!
-
-	// HINT: You can't access window.parser here. You'll have to use chrome.tabs.executeScript
-	// to call window.parser.filter and window.parser.parse.
-
   $('#restore').click(function () {
     chrome.tabs.executeScript(null, {code:
       'var url = window.location.href; var markup = document.documentElement.innerHTML;' +
@@ -16,16 +9,13 @@ $(function () {
 
   $('#save-template').click(function () {
     chrome.tabs.executeScript(null, {code:
-      'var url = window.location.href; var markup = document.documentElement.innerHTML;' +
+      'var url = window.location.href;' +
       'var urlParser = new URLParser(window.location.href);' +
-      'var url = urlParser.removeFragment(); window.parser.saveTemplate(url, markup)'});
+      'var url = urlParser.removeFragment(); window.parser.saveTemplate(url)'});
   });
 
   $('#restore-template').click(function () {
-    chrome.tabs.executeScript(null, {code:
-      'var url = window.location.href;' +
-      'var urlParser = new URLParser(window.location.href);' +
-      'var url = urlParser.removeFragment(); window.parser.initializeTemplate(url)'});
+    chrome.tabs.executeScript(null, {file: 'templates/restoreTemplate.js'});
   });
 
   $('#edit-templates').click(function () {

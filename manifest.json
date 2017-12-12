@@ -12,7 +12,9 @@
         "identity",
         "storage",
         "unlimitedStorage",
-        "tabs"
+        "tabs",
+        "http://*/",
+        "https://*/"
     ],
 
     "content_scripts": [
