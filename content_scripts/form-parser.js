@@ -77,14 +77,17 @@ FormParser.prototype.saveTemplate = function (url) {
     console.log('Invalid url');
     return;
   }
+  // chrome.storage.sync.getBytesInUse(null, function( bytesInUse) {
+  //   console.log(bytesInUse);
+  // });
   var data = this.$form.serializeArray();
   var formObj = createFormObj(data);
   var urlObj = {};
   urlObj[url + '-template'] = formObj;
   chrome.storage.sync.set(urlObj, function () {
-    chrome.storage.sync.get(url + '-template', function (items) {
-      console.log('Saving template');
-    });
+    if (chrome.runtime.lastError) {
+      alert("Error: " + chrome.runtime.lastError.message);
+    }
   });
   return this.$form.serializeArray();
 };
