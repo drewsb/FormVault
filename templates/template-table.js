@@ -14,16 +14,16 @@ $(document).ready(function () {
   });
   $('#delete-selected').click(function () {
     if (confirm('Are you sure you want to delete these templates?') == false) {
-        return;
-      } else {
-        $('input:checkbox:checked').each(function () {
-          var url = $(this).parent().parent().children().eq(2).text();
-          var row_id = $(this).parent().parent()[0].rowIndex;
-          document.getElementById('mytable').deleteRow(row_id);
-          chrome.storage.sync.remove(url + '-template');
-        });
-      }
-      $(this).blur();
+      return;
+    } else {
+      $('input:checkbox:checked').each(function () {
+        var url = $(this).parent().parent().children().eq(2).text();
+        var row_id = $(this).parent().parent()[0].rowIndex;
+        document.getElementById('mytable').deleteRow(row_id);
+        chrome.storage.sync.remove(url + '-template');
+      });
+    }
+    $(this).blur();
   });
   $('[data-toggle=tooltip]').tooltip();
   //Populate table
