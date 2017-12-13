@@ -12,6 +12,19 @@ $(document).ready(function () {
       });
     }
   });
+  $('#delete-selected').click(function () {
+    if (confirm('Are you sure you want to delete these templates?') == false) {
+        return;
+      } else {
+        $('input:checkbox:checked').each(function () {
+          var url = $(this).parent().parent().children().eq(2).text();
+          var row_id = $(this).parent().parent()[0].rowIndex;
+          document.getElementById('mytable').deleteRow(row_id);
+          chrome.storage.sync.remove(url + '-template');
+        });
+      }
+      $(this).blur();
+  });
   $('[data-toggle=tooltip]').tooltip();
   //Populate table
   chrome.storage.sync.get(null, function (items) {
@@ -38,6 +51,7 @@ $(document).ready(function () {
       document.getElementById('delete' + row_id).addEventListener('click', function () {
         deleteTemplate(url, row);
       }, false);
+      jQuery(row).attr('id', row_id);
       row_id++;
     });
   });
@@ -57,12 +71,12 @@ function editTemplate(url) {
 
 // Delete template from chrome storage and table
 function deleteTemplate(url, row) {
-  if (confirm("Are you sure you want to delete this template?") == false) {
+  if (confirm('Are you sure you want to delete this template?') == false) {
     return;
   } else {
     var i = row.rowIndex;
     document.getElementById('mytable').deleteRow(i);
-    chrome.storage.sync.remove(url);
+    //chrome.storage.sync.remove(url + '-template');
   }
 }
 

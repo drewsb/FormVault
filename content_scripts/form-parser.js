@@ -70,23 +70,21 @@ FormParser.prototype.initializeTemplate = function (url) {
   });
 };
 
-//Save template form data to the site's url concatenated with '-template'.
-//Allows for quicker data retrieval
+// Save template form data to the site's url concatenated with '-template'.
+// Allows for quicker data retrieval
 FormParser.prototype.saveTemplate = function (url) {
   if (url == undefined) {
     console.log('Invalid url');
     return;
   }
-  // chrome.storage.sync.getBytesInUse(null, function( bytesInUse) {
-  //   console.log(bytesInUse);
-  // });
   var data = this.$form.serializeArray();
   var formObj = createFormObj(data);
   var urlObj = {};
   urlObj[url + '-template'] = formObj;
   chrome.storage.sync.set(urlObj, function () {
     if (chrome.runtime.lastError) {
-      alert("Error: " + chrome.runtime.lastError.message);
+      console.warn(chrome.runtime.lastError);
+      alert('Error: ' + chrome.runtime.lastError.message);
     }
   });
   return this.$form.serializeArray();

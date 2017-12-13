@@ -34,9 +34,9 @@ URLParser.prototype.extractHostname = function () {
     hostname = this.url.split('/')[0];
   }
 
-  //find & remove port number
+  // find & remove port number
   hostname = hostname.split(':')[0];
-  //find & remove "?"
+  // find & remove "?"
   hostname = hostname.split('?')[0];
 
   return hostname;
