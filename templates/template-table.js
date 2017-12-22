@@ -28,7 +28,12 @@ $(document).ready(function () {
   $('[data-toggle=tooltip]').tooltip();
   //Populate table
   chrome.storage.sync.get(null, function (items) {
-    var allKeys = Object.keys(items);
+    var allKeys = [];
+    Object.keys(items).forEach(function (k) {
+      if (k.indexOf('-domain') == -1) {
+        allKeys.push(k);
+      }
+    });
     var row_id = 0;
     allKeys.forEach(function (key) {
       var urlParser = new URLParser(key);
@@ -46,10 +51,10 @@ $(document).ready(function () {
       cell4.innerHTML = '<p data-placement="top" title="Delete"><button id="delete' + row_id + '" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span></button></p>';
       $('#mytable > tbody:last-child').append(row);
       document.getElementById('edit' + row_id).addEventListener('click', function () {
-        editTemplate(url);
+        editTemplate(url); $(this).blur();
       }, false);
       document.getElementById('delete' + row_id).addEventListener('click', function () {
-        deleteTemplate(url, row);
+        deleteTemplate(url, row); $(this).blur();
       }, false);
       jQuery(row).attr('id', row_id);
       row_id++;
@@ -76,7 +81,7 @@ function deleteTemplate(url, row) {
   } else {
     var i = row.rowIndex;
     document.getElementById('mytable').deleteRow(i);
-    //chrome.storage.sync.remove(url + '-template');
+    chrome.storage.sync.remove(url + '-template');
   }
 }
 

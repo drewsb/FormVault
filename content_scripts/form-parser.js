@@ -1,6 +1,6 @@
 /*
 Form Parser is a class with various functions used to save and restore form data.
-Stores form selector and Data Stack as field variables
+Stores form selector and a DataStack instance as field variables
 */
 var FormParser = function ($form) {
   this.$form = $form;
@@ -53,7 +53,7 @@ FormParser.prototype.restore = function (url) {
   });
 };
 
-FormParser.prototype.initializeTemplate = function (url) {
+FormParser.prototype.initializeTemplate = function (url, domain) {
   if (url == undefined) {
     console.log('Invalid url');
     return;
@@ -61,18 +61,26 @@ FormParser.prototype.initializeTemplate = function (url) {
   var parser = this;
   chrome.storage.sync.get(url + '-template', function (items) {
     var item_len = Object.keys(items).length;
-    if (items == undefined || item_len == 0) {
-      console.log('No saved template for url.');
-      return;
+    var data;
+    if (items != undefined && item_len > 0) {
+      data = items[url + '-template'];
+      parser.fillForm(data);
+    } else {
+      chrome.storage.sync.get(domain + '-domain', function (domain_items) {
+        var item_len = Object.keys(domain_items).length;
+        if (domain_items == undefined || item_len == 0) {
+          console.log('No saved template for url.');
+        }
+        data = domain_items[domain + '-domain'];
+        parser.fillForm(data);
+      });
     }
-    var data = items[url + '-template'];
-    parser.fillForm(data);
   });
 };
 
 // Save template form data to the site's url concatenated with '-template'.
 // Allows for quicker data retrieval
-FormParser.prototype.saveTemplate = function (url) {
+FormParser.prototype.saveTemplate = function (url, domain) {
   if (url == undefined) {
     console.log('Invalid url');
     return;
@@ -81,7 +89,15 @@ FormParser.prototype.saveTemplate = function (url) {
   var formObj = createFormObj(data);
   var urlObj = {};
   urlObj[url + '-template'] = formObj;
+  var domainObj = {};
+  domainObj[domain + '-domain'] = formObj;
   chrome.storage.sync.set(urlObj, function () {
+    if (chrome.runtime.lastError) {
+      console.warn(chrome.runtime.lastError);
+      alert('Error: ' + chrome.runtime.lastError.message);
+    }
+  });
+  chrome.storage.sync.set(domainObj, function () {
     if (chrome.runtime.lastError) {
       console.warn(chrome.runtime.lastError);
       alert('Error: ' + chrome.runtime.lastError.message);
@@ -97,12 +113,14 @@ FormParser.prototype.fillForm = function (data) {
     console.log('No saved data for this url.');
     return;
   }
-  var valueInputs = ["input[type='text']", 'select', 'textarea'];
+  var valueInputs = ["input[type='text']","input[type='email']", 'select', 'textarea'];
   valueInputs.forEach(function (tag) {
     this.$form.find(tag).each(function (index, elem) {
-      $(this).removeClass();
-      $(this).addClass(data[$(this).attr('name')]['class']);
-      $(this).val(data[$(this).attr('name')]['value']);
+      if ($(this).attr('name') in data) {
+        $(this).removeClass();
+        $(this).addClass(data[$(this).attr('name')]['class']);
+        $(this).val(data[$(this).attr('name')]['value']);
+      }
     });
   });
   this.$form.find('input:radio').each(function (index, elem) {

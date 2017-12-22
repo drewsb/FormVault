@@ -1,17 +1,17 @@
 $(function () {
-  $('#restore').click(function () {
+  $('#undo').click(function () {
     chrome.tabs.executeScript(null, {code:
       'var url = window.location.href; var markup = document.documentElement.innerHTML;' +
       'var urlParser = new URLParser(window.location.href);' +
       'var url = urlParser.removeFragment(); window.parser.restore(url)'});
-    (this).blur();
+    $(this).blur();
   });
 
   $('#save-template').click(function () {
     chrome.tabs.executeScript(null, {code:
-      'var url = window.location.href;' +
+      'var url = window.location.href; var domain = document.domain;' +
       'var urlParser = new URLParser(window.location.href);' +
-      'var url = urlParser.removeFragment(); window.parser.saveTemplate(url)'});
+      'var url = urlParser.removeFragment(); window.parser.saveTemplate(url, domain)'});
     $(this).blur();
   });
 
