@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "FormVault",
-    "description": "Saves online form data to your chrome browser",
+    "description": "Autosave your form data and create templates to",
 
     "version": "1.0",
 
@@ -31,11 +31,6 @@
         "default_popup": "popup/popup.html",
         "default_icon": "popup/icon.png",
         "default_title": "Form Vault"
-    },
-
-    "background": {
-    	"scripts": [ "background.js" ],
-    	"persistent": false
-	}
+    }
 
 }
