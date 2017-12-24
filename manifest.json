@@ -2,9 +2,9 @@
     "manifest_version": 2,
 
     "name": "FormVault",
-    "description": "Autosave your form data and create templates to",
+    "description": "Autosave every change you make to a form so you can easily recover lost data, and create templates to fill out forms instantly.",
 
-    "version": "1.0",
+    "version": "1.1.1",
 
     "permissions": [
     	"declarativeContent",

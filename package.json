@@ -13,7 +13,7 @@
     "gulp-eslint": "^4.0.0",
     "gulp-zip": "^4.0.0",
     "method-override": "~1.0.0",
-    "mongoose": "^4.13.6",
+    "mongoose": "^4.13.7",
     "morgan": "~1.0.0",
     "package": "^1.0.1",
     "popper.js": "^1.13.0",
