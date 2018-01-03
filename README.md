@@ -1,17 +1,12 @@
 # FormVault
-FormVault is a Chrome extension that gives users the ability to save form templates and recover lost
-form data from any webpage.
+FormVault gives users the ability to save form templates and recover lost form data from any webpage.
 
-Current Features
-  * Automatically saves most current form data whenever the user updates the form. Program detects changes whenever a user alters the value in an html input or select element.
-  * Stores all template data into chrome.storage.sync, and auto-save data into chrome.storage.local. Template data persist across different browsers and devices,
-  as long as the user has sync enabled for Chrome extensions. 
-  * Recovers most recently saved form data for that particular URL. 
-  * Allows users to save form data as a template, and later recover the template for that URL.
-  * Saving templates overwrites a previously saved template. 
-  * Users can clear all form data by clicking the 'Clear History' button. 
-  * Clicking 'recover from last save' loads most recently saved form data, as well as delete it. This will allow users to quickly iterate through past form data until they find the desired data.
-  * Made buttons look fancy :)
-  * Template history button that allows users to search for some url and view, edit, and delete a form template saved to that url.
+Current features: 
+* The ‘Undo’ button will restore autosaved data for a particular site. This data is stored locally on your chrome browser.
+* The ‘Save Template’ button will create a template of current site’s form data. As long as the user has ‘sync’ enabled on their chrome browser, this data will persist offline and across different devices. Note that this button will overwrite previously saved templates.
+* The ‘Restore Template’ button will retrieve the template saved to the site’s URL and fill the template data into the appropriate fields on the form. 
+* The ‘Edit Templates’ button will open a new webpage with a table displaying all the user’s currently saved templates. Users can edit and delete templates from this page.
+* The ‘Clear History’ button will clear all history - templates and auto-saved data. This data cannot be recovered.
+* Works for all text elements, select drop-downs, radio buttons, and checkboxes.
 
-Site used to test features on: https://www.roboform.com/filling-test-all-fields
+Published to the Chrome Web Store at: https://chrome.google.com/webstore/detail/form-vault/lmhpmojffnpndeejifmkicggnilnlfem
