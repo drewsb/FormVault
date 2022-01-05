@@ -22,7 +22,7 @@ function DataStack() {
     chrome.storage.local.get(url, function (items) {
       var data = items[url];
       if (data == undefined) {
-        console.log('Undefined');
+        console.warn('Data is undefined for this URL.');
         return null;
       }
       var data_len = data['auto-save'].length;

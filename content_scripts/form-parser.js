@@ -5,6 +5,7 @@ Stores form selector and a DataStack instance as field variables
 var FormParser = function ($form) {
   this.$form = $form;
   this.dataStack = new DataStack();
+  this.templateService = new TemplateService();
 };
 
 // Removes elements with the password attribute
@@ -33,7 +34,7 @@ var createFormObj = function (data) {
   return formObj;
 };
 
-FormParser.prototype.parse = function (url, markup) {
+FormParser.prototype.parse = function (url) {
   if (url == undefined) {
     return;
   }
@@ -44,7 +45,7 @@ FormParser.prototype.parse = function (url, markup) {
 
 FormParser.prototype.restore = function (url) {
   if (url == undefined) {
-    console.log('Invalid URL.');
+    console.warn('Invalid URL.');
     return;
   }
   var parser = this;
@@ -55,26 +56,12 @@ FormParser.prototype.restore = function (url) {
 
 FormParser.prototype.initializeTemplate = function (url, domain) {
   if (url == undefined) {
-    console.log('Invalid url');
+    console.warn('Invalid url');
     return;
   }
   var parser = this;
-  chrome.storage.sync.get(url + '-template', function (items) {
-    var item_len = Object.keys(items).length;
-    var data;
-    if (items != undefined && item_len > 0) {
-      data = items[url + '-template'];
-      parser.fillForm(data);
-    } else {
-      chrome.storage.sync.get(domain + '-domain', function (domain_items) {
-        var item_len = Object.keys(domain_items).length;
-        if (domain_items == undefined || item_len == 0) {
-          console.log('No saved template for url.');
-        }
-        data = domain_items[domain + '-domain'];
-        parser.fillForm(data);
-      });
-    }
+  this.templateService.getTemplateData(url, domain, function (data) {
+    parser.fillForm(data);
   });
 };
 
@@ -82,7 +69,7 @@ FormParser.prototype.initializeTemplate = function (url, domain) {
 // Allows for quicker data retrieval
 FormParser.prototype.saveTemplate = function (url, domain) {
   if (url == undefined) {
-    console.log('Invalid url');
+    console.warn('Invalid url');
     return;
   }
   var data = this.$form.serializeArray();
@@ -110,7 +97,7 @@ FormParser.prototype.saveTemplate = function (url, domain) {
 // Currently works for text, radio buttons, checkboxes, select dropdowns, and text areas
 FormParser.prototype.fillForm = function (data) {
   if (data == null) {
-    console.log('No saved data for this url.');
+    console.warn('No saved data for this url.');
     return;
   }
   var valueInputs = ["input[type='text']","input[type='email']", 'select', 'textarea'];

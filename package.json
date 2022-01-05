@@ -1,6 +1,27 @@
 {
   "main": "server.js",
   "dependencies": {
-    "bcrypt-nodejs": "latest"
-  }
+    "bcrypt-nodejs": "latest",
+    "gulp-eslint": "^6.0.0",
+    "gulp-zip": "^5.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
+  "name": "formvault",
+  "description": "FormVault gives users the ability to save form templates and recover lost form data from any webpage.",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drewsb/FormVault.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/drewsb/FormVault/issues"
+  },
+  "homepage": "https://github.com/drewsb/FormVault#readme"
 }
