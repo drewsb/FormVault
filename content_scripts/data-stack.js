@@ -22,16 +22,19 @@ function DataStack() {
     chrome.storage.local.get(url, function (items) {
       var data = items[url];
       if (data == undefined) {
-        console.warn('Data is undefined for this URL.');
-        return null;
+        console.log('Data is undefined for this URL.');
+        callback(null);
+        return;
       }
       var data_len = data['auto-save'].length;
       if (data_len == 0) {
-        return null;
+        callback(null);
+        return;
       }
       var output = data['auto-save'].pop();
       chrome.storage.local.set(items);
       callback(output);
+      return;
     });
   };
 }

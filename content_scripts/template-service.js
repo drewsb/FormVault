@@ -16,7 +16,7 @@ function TemplateService() {
         chrome.storage.sync.get(domain + '-domain', function (domain_items) {
           var item_len = Object.keys(domain_items).length;
           if (domain_items == undefined || item_len == 0) {
-            console.warn('No saved template for url.');
+            console.log('No saved template for url in the stack.');
           }
           data = domain_items[domain + '-domain'];
           callback(data);

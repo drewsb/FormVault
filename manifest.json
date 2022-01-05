@@ -11,13 +11,15 @@
         "storage",
         "unlimitedStorage",
         "tabs",
-        "scripting"
+        "scripting",
+        "notifications",
+        "background"
     ],
 
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-
+            "run_at" : "document_start",
             "js": [
                 "content_scripts/url-parser.js"
                 , "content_scripts/form-parser.js"
@@ -33,6 +35,10 @@
         "default_popup": "popup/popup.html",
         "default_icon": "popup/icon.png",
         "default_title": "Form Vault"
+    },
+
+    "background": {
+        "service_worker": "background.js"
     },
 
     "host_permissions": [

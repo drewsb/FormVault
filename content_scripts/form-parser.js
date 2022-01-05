@@ -26,7 +26,7 @@ var createFormObj = function (data) {
   Object.keys(data).forEach(function (id) {
     var attMap = {};
     var name = data[id]['name'];
-    attMap['class'] = $('#' + name).attr('class');
+    attMap['class'] = $('input[name="' + name + '"]').attr('class');
     attMap['value'] = data[id]['value'];
     formObj[data[id]['name']] = attMap;
   });
@@ -43,14 +43,22 @@ FormParser.prototype.parse = function (url) {
   return this.dataStack.pushData(url, formObj);
 };
 
-FormParser.prototype.restore = function (url) {
+FormParser.prototype.restore = function (url, callback) {
   if (url == undefined) {
     console.warn('Invalid URL.');
+    callback(false);
     return;
   }
-  var parser = this;
   this.dataStack.getData(url, function (data) {
-    parser.fillForm(data);
+    if (data == null || data == undefined || data.length == 0) {
+      callback(false);
+      return;
+    }
+    else {
+      parser.fillForm(data);
+      callback(true);
+      return;
+    }
   });
 };
 
@@ -59,6 +67,7 @@ FormParser.prototype.initializeTemplate = function (url, domain) {
     console.warn('Invalid url');
     return;
   }
+  console.log(url);
   var parser = this;
   this.templateService.getTemplateData(url, domain, function (data) {
     parser.fillForm(data);
@@ -73,6 +82,12 @@ FormParser.prototype.saveTemplate = function (url, domain) {
     return;
   }
   var data = this.$form.serializeArray();
+  console.log(data);
+  console.log(this.$form);
+  if(data.length == 0) {
+    chrome.runtime.sendMessage({type: "no-data", id: url}, () => {});
+    return;
+  }
   var formObj = createFormObj(data);
   var urlObj = {};
   urlObj[url + '-template'] = formObj;
@@ -90,19 +105,20 @@ FormParser.prototype.saveTemplate = function (url, domain) {
       alert('Error: ' + chrome.runtime.lastError.message);
     }
   });
-  return this.$form.serializeArray();
+  return data;
 };
 
 // Fills form by setting input tags to their correct values
 // Currently works for text, radio buttons, checkboxes, select dropdowns, and text areas
 FormParser.prototype.fillForm = function (data) {
   if (data == null) {
-    console.warn('No saved data for this url.');
+    console.log('No saved data for this url.');
     return;
   }
   var valueInputs = ["input[type='text']","input[type='email']", 'select', 'textarea'];
+  var formToFill = this.$form;
   valueInputs.forEach(function (tag) {
-    this.$form.find(tag).each(function (index, elem) {
+    formToFill.find(tag).each(function (index, elem) {
       if ($(this).attr('name') in data) {
         $(this).removeClass();
         $(this).addClass(data[$(this).attr('name')]['class']);
@@ -110,12 +126,12 @@ FormParser.prototype.fillForm = function (data) {
       }
     });
   });
-  this.$form.find('input:radio').each(function (index, elem) {
+  formToFill.find('input:radio').each(function (index, elem) {
     if (elem.name in data && elem.value == data[elem.name]['value']) {
       $(this).prop('checked', true);
     }
   });
-  this.$form.find('input:checkbox').each(function (index, elem) {
+  formToFill.find('input:checkbox').each(function (index, elem) {
     if (elem.name in data && elem.value == data[elem.name]['value']) {
       $(this).prop('checked', true);
     } else {

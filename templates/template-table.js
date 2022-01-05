@@ -84,7 +84,10 @@ async function editTemplate(url) {
   urlParser.removeTemplate();
   await chrome.tabs.create({'url': urlParser.url, selected: true, active: true}, async function (newTab) {
     if (!newTab.url) await onTabUrlUpdated(newTab.id);
-    await chrome.scripting.executeScript(
+    var obj = {};
+    obj['isFromPopup'] = false;
+    await chrome.runtime.sendMessage({type: "store-local", value: obj}, function(response) {
+      chrome.scripting.executeScript(
       {
         target: {tabId: newTab.id},
         files: [
@@ -95,8 +98,13 @@ async function editTemplate(url) {
           "js/jquery.min.js",
           "content_scripts/main.js",
           'templates/restore-template.js'
-        ]
+        ],
+      },
+      function() {
+        window.close();
+        console.log("Last error:", chrome.runtime.lastError);
       });
+    });
   });
 }
 
@@ -115,6 +123,7 @@ function toggleRow(row_id, url, urlHostname) {
   var templateService = new TemplateService();
   templateService.getTemplateData(url, urlHostname, function(data) {
     if (Object.keys(data).length === 0) {
+      console.log("No template data stored for this url.");
       return;
     }
     var innerHtml = '<td><table class="table-expand table table-bordred table-striped sortable" style="text-align:center;"><tr><td> Attribute Name </td> <td> Attribute Value </td></tr>'
