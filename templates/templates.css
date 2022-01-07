@@ -23,10 +23,6 @@ body {
     background-color: #F2F2F2;
 }
 
-#mytable .hidden_row {
-    display: none;
-}
-
 .table-expand {
     text-align: center;
     border-style: none;

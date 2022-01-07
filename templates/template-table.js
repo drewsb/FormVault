@@ -38,22 +38,17 @@ $(document).ready(function () {
       var url = urlParser.removeTemplate();
       var urlHostname = urlParser.extractHostname();
       var row = document.createElement('TR');
-      // var hiddenRow = document.createElement('TR');
       var cell0 = row.insertCell(0);
       var cell1 = row.insertCell(1);
       var cell2 = row.insertCell(2);
       var cell3 = row.insertCell(3);  
       var cell4 = row.insertCell(4);
-      // var cell5 = row.insertCell(5);
-      // hiddenRow.className = 'hidden_row'
       cell0.innerHTML = '<input type="checkbox" class="checkthis" />';
       cell1.innerHTML = urlHostname;
       cell2.innerHTML = url;
-      cell3.innerHTML = '<button id="edit' + row_id + '" class="btn btn-primary"><span class="bi bi-trash"></span></button>';
-      cell4.innerHTML = '<button id="delete' + row_id + '" class="btn btn-danger"><span class="icon-trash"></span></button>';
-      // cell5.innerHTML = '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></button>'
+      cell3.innerHTML = '<td><pdata-placement="top"><button id="edit' + row_id + '" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td>';
+      cell4.innerHTML = '<p data-placement="top" title="Delete"><button id="delete' + row_id + '" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span></button></p>';
       $('#mytable > tbody:last-child').append(row);
-      // $('#mytable > tbody:last-child').append(hiddenRow);
       document.getElementById('edit' + row_id).addEventListener('click', async function (e) {
         e.stopPropagation();
         await editTemplate(url);
@@ -63,16 +58,7 @@ $(document).ready(function () {
         e.stopPropagation();
         await deleteTemplate(url, row); $(this).blur();
       }, false);
-      var createClickHandler = function(e, row, url, urlHostname) {
-        return function() {
-          if(e.getElementsByTagName('td').length > 0) {
-            toggleRow(row, url, urlHostname);
-          }
-        };
-      };
-      // row.onclick = createClickHandler(row, 'hidden' + row_id, url, urlHostname);
       jQuery(row).attr('id', row_id);
-      // jQuery(hiddenRow).attr('id', "hidden" + row_id);
       row_id++;
     });
   });
@@ -116,35 +102,6 @@ async function deleteTemplate(url, row) {
     document.getElementById('mytable').deleteRow(i);
     await chrome.storage.sync.remove(url + '-template');
   }
-}
-
-function toggleRow(row_id, url, urlHostname) {
-  var templateService = new TemplateService();
-  templateService.getTemplateData(url, urlHostname, function(data) {
-    if (Object.keys(data).length === 0) {
-      console.log("No template data stored for this url.");
-      return;
-    }
-    var innerHtml = '<td><table class="table-expand table table-bordred table-striped sortable" style="text-align:center;"><tr><td> Attribute Name </td> <td> Attribute Value </td></tr>'
-    jQuery.each(data, function(idx, row) {
-      innerHtml += "<tr><td>" + JSON.stringify(idx) + "</td> <td>" + JSON.stringify(row.value) + "</td></tr>"
-    })
-    innerHtml += '</table></td>';
-    var rowElem = document.getElementById(row_id);
-    var rowCell;
-    if(rowElem.cells.length == 0) {
-      rowCell = rowElem.insertCell(0);
-    }
-    else {
-      rowCell = rowElem.cells[0];
-      rowCell.innerHTML = null;
-    }
-    rowCell.innerHTML = innerHtml;
-    rowCell.colSpan = 4;
-    if($("#" + row_id).length){
-      $("#" + row_id).toggle();
-    }
-  });
 }
 
 function filterTable() {
@@ -196,4 +153,4 @@ function onTabUrlUpdated(tabId) {
       chrome.tabs.onRemoved.removeListener(onRemoved);
       (ok ? resolve : reject)();
     }
-  })};
+})};
