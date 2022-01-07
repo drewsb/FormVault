@@ -38,22 +38,22 @@ $(document).ready(function () {
       var url = urlParser.removeTemplate();
       var urlHostname = urlParser.extractHostname();
       var row = document.createElement('TR');
-      var hiddenRow = document.createElement('TR');
+      // var hiddenRow = document.createElement('TR');
       var cell0 = row.insertCell(0);
       var cell1 = row.insertCell(1);
       var cell2 = row.insertCell(2);
       var cell3 = row.insertCell(3);  
       var cell4 = row.insertCell(4);
-      var cell5 = row.insertCell(5);
-      hiddenRow.className = 'hidden_row'
+      // var cell5 = row.insertCell(5);
+      // hiddenRow.className = 'hidden_row'
       cell0.innerHTML = '<input type="checkbox" class="checkthis" />';
       cell1.innerHTML = urlHostname;
       cell2.innerHTML = url;
-      cell3.innerHTML = '<td><pdata-placement="top"><button id="edit' + row_id + '" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span></button></p></td>';
-      cell4.innerHTML = '<p data-placement="top" title="Delete"><button id="delete' + row_id + '" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-trash"></span></button></p>';
-      cell5.innerHTML = ''
+      cell3.innerHTML = '<button id="edit' + row_id + '" class="btn btn-primary"><span class="bi bi-trash"></span></button>';
+      cell4.innerHTML = '<button id="delete' + row_id + '" class="btn btn-danger"><span class="icon-trash"></span></button>';
+      // cell5.innerHTML = '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"></button>'
       $('#mytable > tbody:last-child').append(row);
-      $('#mytable > tbody:last-child').append(hiddenRow);
+      // $('#mytable > tbody:last-child').append(hiddenRow);
       document.getElementById('edit' + row_id).addEventListener('click', async function (e) {
         e.stopPropagation();
         await editTemplate(url);
@@ -70,9 +70,9 @@ $(document).ready(function () {
           }
         };
       };
-      row.onclick = createClickHandler(row, 'hidden' + row_id, url, urlHostname);
+      // row.onclick = createClickHandler(row, 'hidden' + row_id, url, urlHostname);
       jQuery(row).attr('id', row_id);
-      jQuery(hiddenRow).attr('id', "hidden" + row_id);
+      // jQuery(hiddenRow).attr('id', "hidden" + row_id);
       row_id++;
     });
   });
@@ -101,7 +101,6 @@ async function editTemplate(url) {
         ],
       },
       function() {
-        window.close();
         console.log("Last error:", chrome.runtime.lastError);
       });
     });
