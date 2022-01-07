@@ -5,6 +5,7 @@ var zip = require('gulp-zip');
 var JS = [
   'content_scripts/main.js',
   'content_scripts/data-stack.js',
+  'content_scripts/template-service.js',
   'content_scripts/url-parser.js',
   'content_scripts/form-parser.js',
   'templates/template-table.js',

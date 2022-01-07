@@ -1,36 +1,49 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
 
     "name": "Form Vault",
     "description": "Autosave every change you make to a form so you can easily recover lost data, and create templates to fill out forms instantly.",
 
-    "version": "1.1.2",
+    "version": "1.1.3",
 
     "permissions": [
-    	"declarativeContent",
     	"activeTab",
-        "identity",
         "storage",
         "unlimitedStorage",
         "tabs",
-        "http://*/",
-        "https://*/",
-        "*://*/*"
+        "scripting",
+        "notifications",
+        "background"
     ],
 
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": [ "content_scripts/form-parser.js", "content_scripts/data-stack.js", "js/jquery.min.js"
-                ,"content_scripts/main.js", "content_scripts/url-parser.js"
+            "run_at" : "document_start",
+            "js": [
+                "content_scripts/url-parser.js"
+                , "content_scripts/form-parser.js"
+                , "content_scripts/data-stack.js"
+                , "content_scripts/template-service.js"
+                , "js/jquery.min.js"
+                , "content_scripts/main.js"
             ]
         }
     ],
 
-    "browser_action": {
+    "action": {
         "default_popup": "popup/popup.html",
         "default_icon": "popup/icon.png",
         "default_title": "Form Vault"
-    }
+    },
+
+    "background": {
+        "service_worker": "background.js"
+    },
+
+    "host_permissions": [
+        "<all_urls>",
+        "*://*/*"
+    ]
 
 }
